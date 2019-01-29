@@ -192,7 +192,7 @@ __setup("board_id=", board_id_setup);
 void print_board_revision(void)
 {
 	extern int ddr_mode;
-	
+
 	switch (system_rev) {
 	case COCOA7_BRINGUP_02:
 		printk(KERN_INFO "COCOA7 BringUp Board Rev 0.2\n");
@@ -369,7 +369,7 @@ static void mic_set_power(int on)
 		//printk("mic_set_power: v_micbias on!\n");
 		/* Earphone-MIC Bias 2.8V */
 		regulator_set_voltage(v_ldo, 2800000, 2800000);
-		regulator_enable(v_ldo);		
+		regulator_enable(v_ldo);
 		mic_power_flag = 1;
 	}
 
@@ -1041,7 +1041,7 @@ static struct pm80x_platform_data pm800_info = {
 
 static struct pm80x_platform_data pm805_info = {
 	.irq_mode = 0,
-	.plat_config = pm805_plat_config,	
+	.plat_config = pm805_plat_config,
 };
 
 static void pm800_dvctable_init(void)
@@ -1132,7 +1132,7 @@ static int gp2a_proxy_power(int on)
 		regulator_disable(proxy_led);
 		proxy_status = 0;
 	}
-	
+
 	return 0;
 }
 
@@ -1171,7 +1171,7 @@ static int gp2a_light_power(int on) {
 		regulator_disable(proxy_2v85);
 		light_status = 0;
 	}
-	
+
 	return 0;
 }
 
@@ -1199,7 +1199,7 @@ static void gp2a_init(int rev)
 	gp2a_pdata.d0_value[D0_COND2_B] = 3373;
 	gp2a_pdata.d0_value[D0_COND3_A] = 615;
 	gp2a_pdata.d0_value[D0_COND3_B] = 675;
-}	
+}
 
 #endif
 
@@ -1248,11 +1248,11 @@ static struct i2c_board_info emeidkb_pwr_i2c_info[] = {
 	},
 #endif
 #if defined(CONFIG_BQ24157_CHARGER)
-	{ 
+	{
 		.type		= "bq24157_6A",
 		.addr		= 0x6A,
 		.platform_data	= &bq24157_charger_info,
-		.irq		= MMP_GPIO_TO_IRQ(mfp_to_gpio(GPIO029_GPIO_29)), 
+		.irq		= MMP_GPIO_TO_IRQ(mfp_to_gpio(GPIO029_GPIO_29)),
 	},
 #endif
 };
@@ -1477,13 +1477,13 @@ static struct spa_platform_data spa_info = {
 	.battery_capacity = 1650,
 	.VF_low	= 50,
 	.VF_high = 600,
-}; 
+};
 static struct platform_device Sec_BattMonitor = {
 	.name		= "Sec_BattMonitor",
-	.id		= -1, 
+	.id		= -1,
 	.dev		= {
 		.platform_data = &spa_info,
-	},		
+	},
 };
 #endif
 
@@ -1504,7 +1504,7 @@ static struct i2c_board_info emeidkb_i2c2_info[] = {
 #if defined(CONFIG_TC35876X)
        {
                .type           = "tc35876x",
-	       .addr           = 0x0f,      
+	       .addr           = 0x0f,
                .platform_data = &tc358765_data,
        },
 #endif
@@ -1521,7 +1521,7 @@ static struct i2c_board_info cocoa7_i2c2_info[] = {
 #if defined(CONFIG_TC35876X)
        {
                .type           = "tc35876x",
-	       .addr           = 0x64,      
+	       .addr           = 0x64,
                .platform_data = &vx5b3dx_data,
        },
 #endif
@@ -2519,7 +2519,9 @@ struct gpio_edge_desc uart_rx_pad = {
 };
 
 #define PM800_SW_PDOWN			(1 << 5)
+#ifndef PM800_USER_DATA3
 #define PM800_USER_DATA3		0xEA
+#endif
 static void emei_dkb_poweroff(void)
 {
 	unsigned char data;
@@ -2670,10 +2672,10 @@ static void __init emeidkb_init(void)
 	platform_device_register(&pxa988_device_rtc);
 	/* backlight */
 	//platform_device_register(&emei_dkb_lcd_backlight_devices);//zswan add it
-#if defined (CONFIG_BACKLIGHT_PWM) && defined (CONFIG_BACKLIGHT_TPS61165)	
+#if defined (CONFIG_BACKLIGHT_PWM) && defined (CONFIG_BACKLIGHT_TPS61165)
 	pxa988_add_pwm(4);
        platform_device_register(&cocoa7_lcd_backlight_devices);
-#endif       
+#endif
 	/* set pm800 dvc information,must before pm800 init */
 	if (!dvc_flag)
 		pm800_dvctable_init();
